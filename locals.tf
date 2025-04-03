@@ -47,7 +47,7 @@ locals {
                 EOT3
     },
     {
-      path        = "/mnt/disks/data/caddy/Caddyfile"
+      path        = "/tmp/Caddyfile"
       permissions = "0644"
       owner       = "root"
       content     = <<-EOT4
@@ -64,8 +64,14 @@ locals {
       content     = <<-EOT5
         #!/bin/bash
       
-        mkfs.ext4 -L data -m 0 -E lazy_itable_init=0,lazy_journal_init=0,discard /dev/sdb
+        mkfs.ext4 -L data -m 0 -E lazy_itable_init=0,lazy_journal_init=0,discard /dev/disk/by-id/google-persistent-disk-1
         mkdir -p /mnt/disks/data
+        mount -t ext4 -o nodev,nosuid /dev/disk/by-id/google-persistent-disk-1 /mnt/disks/data
+        mkdir -p /mnt/disks/data/caddy
+        mkdir -p /mnt/disks/data/caddy/data
+        mkdir -p /mnt/disks/data/caddy/config
+        mkdir -p /mnt/disks/data/actual-data
+        cp /tmp/Caddyfile /mnt/disks/data/caddy/Caddyfile
         EOT5
     }
   ]
@@ -79,9 +85,9 @@ locals {
   ]
 
   bootcmd = [
-    "fsck.ext4 -tvy /dev/sdb",
+    "fsck.ext4 -tvy /dev/disk/by-id/google-persistent-disk-1",
     "mkdir -p /mnt/disks/data",
-    "mount -t ext4 -o nodev,nosuid /dev/sdb /mnt/disks/data",
+    "mount -t ext4 -o nodev,nosuid /dev/disk/by-id/google-persistent-disk-1 /mnt/disks/data",
     "mkdir -p /mnt/disks/data/caddy",
     "mkdir -p /mnt/disks/data/caddy/data",
     "mkdir -p /mnt/disks/data/caddy/config",
