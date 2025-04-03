@@ -49,7 +49,7 @@ resource "google_compute_instance" "container_host" {
   }
 
   metadata = {
-    ssh-keys  = "${var.user}:${file(var.public_key_path)}"
+    ssh-keys  = "${var.user}:${fileexists(var.public_key_path) ? file(var.public_key_path) : var.public_key}"
     user-data = local.cloud_config
   }
 
