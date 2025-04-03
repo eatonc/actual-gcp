@@ -23,6 +23,12 @@ variable "public_key_path" {
   default = "~/.ssh/id_gcp_ed25519.pub"
 }
 
+variable "public_key" {
+  type        = string
+  description = "SSH public key to use if public key file doesn't exist (if running in HCP Terraform)"
+  default     = ""
+}
+
 variable "user" {
   type = string
 }
