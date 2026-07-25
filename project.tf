@@ -1,6 +1,6 @@
 resource "google_project_service" "project" {
   for_each = toset(var.project_enabled_services)
-  project  = data.google_project.project.id
+  project  = data.google_project.project.project_id
   service  = each.key
 
   timeouts {
