@@ -1,6 +1,8 @@
 resource "google_service_account" "container_host" {
   account_id   = "container-host-sa"
   display_name = "Custom SA for Container Host VM Instance"
+
+  depends_on = [google_project_service.project]
 }
 
 resource "google_compute_disk" "container_host_boot_disk" {
@@ -12,6 +14,8 @@ resource "google_compute_disk" "container_host_boot_disk" {
     managed_by = "terraform"
   }
   physical_block_size_bytes = 4096
+
+  depends_on = [google_project_service.project]
 }
 
 resource "google_compute_disk" "container_host_data_disk" {
@@ -26,6 +30,8 @@ resource "google_compute_disk" "container_host_data_disk" {
   lifecycle {
     prevent_destroy = true
   }
+
+  depends_on = [google_project_service.project]
 }
 
 resource "google_compute_instance" "container_host" {
@@ -44,7 +50,8 @@ resource "google_compute_instance" "container_host" {
   }
 
   network_interface {
-    network = google_compute_network.vpc_network.name
+    network    = google_compute_network.vpc_network.name
+    subnetwork = google_compute_subnetwork.vpc_subnet.name
 
     access_config {
       // Ephemeral public IP
