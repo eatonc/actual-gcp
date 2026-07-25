@@ -7,4 +7,11 @@ terraform {
       name = "your-workspace"
     }
   }
+
+  required_providers {
+    google = {
+      source  = "hashicorp/google"
+      version = "~> 6.25"
+    }
+  }
 }
