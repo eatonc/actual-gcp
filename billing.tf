@@ -1,6 +1,9 @@
 resource "google_billing_budget" "budget" {
   billing_account = data.google_billing_account.billing_account.id
   display_name    = "Monthly Budget Alert"
+  budget_filter {
+    projects = ["projects/${data.google_project.project.number}"]
+  }
   amount {
     specified_amount {
       currency_code = var.billing_alert_currency_code
@@ -22,4 +25,6 @@ resource "google_billing_budget" "budget" {
   threshold_rules {
     threshold_percent = 1.5
   }
+
+  depends_on = [google_project_service.project]
 }
