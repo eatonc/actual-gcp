@@ -63,10 +63,15 @@ locals {
       owner       = "root"
       content     = <<-EOT5
         #!/bin/bash
-      
-        mkfs.ext4 -L data -m 0 -E lazy_itable_init=0,lazy_journal_init=0,discard /dev/disk/by-id/google-persistent-disk-1
+
+        DEVICE=/dev/disk/by-id/google-persistent-disk-1
+
+        if ! blkid $DEVICE >/dev/null 2>&1; then
+          mkfs.ext4 -L data -m 0 -E lazy_itable_init=0,lazy_journal_init=0,discard $DEVICE
+        fi
+
         mkdir -p /mnt/disks/data
-        mount -t ext4 -o nodev,nosuid /dev/disk/by-id/google-persistent-disk-1 /mnt/disks/data
+        mount -t ext4 -o nodev,nosuid $DEVICE /mnt/disks/data
         mkdir -p /mnt/disks/data/caddy
         mkdir -p /mnt/disks/data/caddy/data
         mkdir -p /mnt/disks/data/caddy/config
