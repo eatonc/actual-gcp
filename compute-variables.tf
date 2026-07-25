@@ -16,6 +16,7 @@ variable "duckdns_subdomains" {
 variable "duckdns_token" {
   type        = string
   description = "Authentication token for DuckDNS"
+  sensitive   = true
 }
 
 variable "public_key_path" {
