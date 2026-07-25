@@ -41,7 +41,7 @@ locals {
                 Description=Start Actual
 
                 [Service]
-                ExecStart=/usr/bin/docker run --rm --network custom-bridge -p '[::1]:5006:5006' --mount 'type=bind,source=/mnt/disks/data/actual-data,target=/data' --name=actual_server actualbudget/actual-server:latest
+                ExecStart=/usr/bin/docker run --rm --network custom-bridge --mount 'type=bind,source=/mnt/disks/data/actual-data,target=/data' --name=actual_server actualbudget/actual-server:latest
                 ExecStop=/usr/bin/docker stop actual_server
                 ExecStopPost=/usr/bin/docker rm actual_server
                 EOT3
