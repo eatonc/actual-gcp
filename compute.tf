@@ -7,7 +7,7 @@ resource "google_compute_disk" "container_host_boot_disk" {
   name  = "container-host-boot-disk"
   type  = "pd-standard"
   image = data.google_compute_image.container_optimized.self_link
-  size  = 10
+  size  = 15
   labels = {
     managed_by = "terraform"
   }
@@ -17,7 +17,7 @@ resource "google_compute_disk" "container_host_boot_disk" {
 resource "google_compute_disk" "container_host_data_disk" {
   name = "container-host-data-disk"
   type = "pd-standard"
-  size = 20
+  size = 15
   labels = {
     managed_by = "terraform"
   }

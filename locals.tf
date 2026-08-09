@@ -57,6 +57,9 @@ locals {
       content     = <<-EOT4
             ${var.actual_fqdn} {
                 encode gzip zstd
+                request_body {
+                    max_size 50MB
+                }
                 reverse_proxy actual_server:5006
             }
             EOT4

@@ -1,3 +1,4 @@
 *.auto.tfvars
 .DS_Store
 .terraform*
+myenv
