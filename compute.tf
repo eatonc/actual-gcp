@@ -29,6 +29,13 @@ resource "google_compute_disk" "container_host_data_disk" {
 
   lifecycle {
     prevent_destroy = true
+
+    # A disk restored from a snapshot (see "Moving to a Different Zone" in the
+    # README) reports its source snapshot back to Terraform. Since this resource
+    # never sets `snapshot` itself, Terraform would otherwise read that as
+    # "remove the snapshot argument", and because `snapshot` forces replacement,
+    # it would plan to destroy the disk holding the data the restore recovered.
+    ignore_changes = [snapshot]
   }
 
   depends_on = [google_project_service.project]
