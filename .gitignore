@@ -1,8 +1,0 @@
-*.auto.tfvars
-.DS_Store
-.terraform*
-myenv
-
-
-.gitignore
-backend.tf
